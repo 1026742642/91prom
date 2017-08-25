@@ -20,22 +20,20 @@ import java.util.regex.Pattern;
  * Created by Administrator on 2017/8/17.
  */
 public class Download {
-    public static void main(String[] args) {
+    static {
         //设置代理
         System.getProperties().setProperty("http.proxyHost", "127.0.0.1");
         System.getProperties().setProperty("http.proxyPort", "1080");
+    }
+    public static void main(String[] args) {
         try {
             String url = "http://91.91p17.space/view_video.php?viewkey=74ff3e999369620b751f";
             String mp4 = findMp4(html(url));
-//            System.out.println(findMp4(html("http://91.91p17.space/view_video.php?viewkey=8a47b7f49dfe07d2c38c")));
             System.out.println(mp4);
             downloadFile(mp4);
-//            downloadFile("http://192.240.120.100//mp43/229627.mp4");
-//            downloadFile("http://192.240.120.75//mp43/232292.mp4?st=i1perxkn5oNUrl6KAtpQKw&e=1503580619");
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        findIndex("http://91.91p17.space/index.php");
     }
 
     public static void downloadFile(String urlStr) throws Exception {
