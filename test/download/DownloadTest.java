@@ -2,9 +2,7 @@ import org.junit.Test;
 import org.junit.Before; 
 import org.junit.After;
 
-import static download.Download.downloadFile;
-import static download.Download.findMp4;
-import static download.Download.html;
+import static download.Download.*;
 
 /** 
 * Download Tester. 
@@ -54,10 +52,13 @@ public void testDownloadFile() throws Exception {
 */ 
 @Test
 public void testFindIndex() throws Exception { 
-//TODO: Test goes here... 
-} 
+//TODO: Test goes here...
+    findIndex(html("http://91.91p17.space/index.php"));
+}
 
-/** 
+
+
+    /**
 * 
 * Method: title(String str) 
 * 
