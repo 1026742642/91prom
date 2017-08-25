@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
@@ -20,15 +21,17 @@ import java.util.regex.Pattern;
  */
 public class Download {
     public static void main(String[] args) {
+        //设置代理
+        System.getProperties().setProperty("http.proxyHost", "127.0.0.1");
+        System.getProperties().setProperty("http.proxyPort", "1080");
         try {
-            System.getProperties().setProperty("http.proxyHost", "127.0.0.1");
-            System.getProperties().setProperty("http.proxyPort", "1080");
-            String url = "http://91.91p17.space/view_video.php?viewkey=8a47b7f49dfe07d2c38c";
+            String url = "http://91.91p17.space/view_video.php?viewkey=74ff3e999369620b751f";
             String mp4 = findMp4(html(url));
 //            System.out.println(findMp4(html("http://91.91p17.space/view_video.php?viewkey=8a47b7f49dfe07d2c38c")));
-//            System.out.println(mp4);
-//            downloadFile(mp4);
-            downloadFile("http://192.240.120.100//mp43/231822.mp4?st=jE_VWgjY7yj0VpcJnwqahQ&e=1503416569");
+            System.out.println(mp4);
+            downloadFile(mp4);
+//            downloadFile("http://192.240.120.100//mp43/229627.mp4");
+//            downloadFile("http://192.240.120.75//mp43/232292.mp4?st=i1perxkn5oNUrl6KAtpQKw&e=1503580619");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -36,10 +39,13 @@ public class Download {
     }
 
     public static void downloadFile(String urlStr) throws Exception {
-        URL url = new URL(urlStr);
         String filename = "e:\\" + urlStr.substring(urlStr.lastIndexOf("/") + 1, urlStr.lastIndexOf("?"));
+        URL url = new URL(urlStr);
+        URLConnection conn = url.openConnection();
+        conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0");
+        conn.connect();
         FileUtils.copyURLToFile(url, new File(filename));
-        System.out.println("Finish " + filename);
+        System.out.println("Finish: " + filename);
     }
 
     public static Vector findIndex(String str) {
@@ -57,7 +63,7 @@ public class Download {
 
     public static String findMp4(String str) {
         String mp4 = "";
-        String pattern = "http://[^/]*?//[^/]*?/\\d+\\.mp4";
+        String pattern = "http://[^/]*?//[^/]*?/\\d+?.mp4\\?[^\"]*";
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(str);
         if (m.find()) {
